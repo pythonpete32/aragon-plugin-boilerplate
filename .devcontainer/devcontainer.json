@@ -2,7 +2,9 @@
   "name": "Aragon Dev Container",
   "image": "mcr.microsoft.com/devcontainers/universal:2",
   "features": {
-    "ghcr.io/devcontainers/features/common-utils:2": {},
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "configureZshAsDefaultShell": true
+    },
     "ghcr.io/devcontainers/features/node:1": {},
     "ghcr.io/devcontainers-contrib/features/curl-apt-get:1": {},
     "ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {}
@@ -25,5 +27,15 @@
       ]
     }
   },
-  "postCreateCommand": "npm install --global hardhat-shorthand && yarn install"
+  "postCreateCommand": "npm install --global hardhat-shorthand && yarn install",
+  "runArgs": [
+    "--mount=type=bind,src=${{ env:USERPROFILE }}/.oh-my-zsh,dst=/root/.oh-my-zsh",
+    "--mount=type=bind,src=./.devcontainer/.zshrc,dst=/root/.zshrc",
+    "-e",
+    "ZSH=/root/.oh-my-zsh",
+    "-e",
+    "ZSH_THEME=jonathan",
+    "--entrypoint",
+    "zsh"
+  ]
 }
