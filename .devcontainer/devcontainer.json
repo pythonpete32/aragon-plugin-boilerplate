@@ -1,17 +1,28 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "name": "Aragon Dev Container",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:0-18",
   "features": {
-    "ghcr.io/devcontainers/features/node:1": {}
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "configureZshAsDefaultShell": true
+    }
   },
-    	"customizations": {
-		"vscode": {
-			"extensions": [
-				"JuanBlanco.solidity",
-				"tintinweb.solidity-visual-auditor",
-				"GitHub.copilot-labs",
-				"GitHub.copilot-nightly",
-				"eamodio.gitlens"
-			]
-		}
-	}
+  "settings": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "prettier.resolveGlobalModules": true
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "JuanBlanco.solidity",
+        "tintinweb.solidity-visual-auditor",
+        "GitHub.copilot-labs",
+        "GitHub.copilot-nightly",
+        "eamodio.gitlens",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+  "postCreateCommand": "npm install --global hardhat-shorthand && yarn install"
 }
