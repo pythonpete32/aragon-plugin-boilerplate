@@ -27,15 +27,5 @@
       ]
     }
   },
-  "postCreateCommand": "npm install --global hardhat-shorthand && yarn install",
-  "runArgs": [
-    "--mount=type=bind,src=${{ env:USERPROFILE }}/.oh-my-zsh,dst=/root/.oh-my-zsh",
-    "--mount=type=bind,src=./.devcontainer/.zshrc,dst=/root/.zshrc",
-    "-e",
-    "ZSH=/root/.oh-my-zsh",
-    "-e",
-    "ZSH_THEME=jonathan",
-    "--entrypoint",
-    "zsh"
-  ]
+  "postCreateCommand": "npm install --global hardhat-shorthand && yarn install"
 }
