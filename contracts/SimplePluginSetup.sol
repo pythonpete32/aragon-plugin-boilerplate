@@ -13,11 +13,11 @@ import {DAO} from "aragon-plugin-base/contracts/lib/dao-authorizable/DAO.sol";
 import {PermissionLib} from "aragon-plugin-base/contracts/lib/permission/PermissionLib.sol";
 import {PluginSetup, IPluginSetup} from "aragon-plugin-base/contracts/lib/plugin/PluginSetup.sol";
 
-import {AdminTransferPlugin} from "./AdminTransferPlugin.sol";
+import {SimplePlugin} from "./SimplePlugin.sol";
 
-/// @title LensVotingSetup
-/// @notice The setup contract of the `LensVoting` plugin.
-contract AdminTransferSetup is PluginSetup {
+/// @title SimplePluginSetup
+/// @notice The setup contract of the `SimplePlugin` plugin.
+contract SimplePluginSetup is PluginSetup {
     using Address for address;
     using Clones for address;
     using ERC165Checker for address;
@@ -29,7 +29,7 @@ contract AdminTransferSetup is PluginSetup {
 
     /// @notice The contract constructor, that deployes the bases.
     constructor() {
-        adminTransferBase = address(new AdminTransferPlugin());
+        adminTransferBase = address(new SimplePlugin());
     }
 
     /// @inheritdoc IPluginSetup
@@ -37,19 +37,14 @@ contract AdminTransferSetup is PluginSetup {
         address _dao,
         bytes memory _data
     ) external returns (address plugin, PreparedDependency memory preparedDependency) {
-        // 1. Decode `_data` to extract the params needed for deploying and initializing `AdminTransfer` plugin,
-        (address ANT, address[] memory admins) = abi.decode(_data, (address, address[]));
+        // Decode `_data` to extract the params needed for deploying and initializing `AdminTransfer` plugin,
+        address admin = abi.decode(_data, (address));
 
-        // 2. validate instalation params
-        require(!ANT.isContract(), "ANT is not a contract");
-        require(admins.length > 0, "No admins passed");
-
-        // 3. encode the initialization data for the plugin
+        // encode the initialization data for the plugin
         bytes memory initData = abi.encodeWithSelector(
-            bytes4(keccak256("initialize(address,address,address[])")),
-            ANT,
+            bytes4(keccak256("initialize(address,address)")),
             _dao,
-            admins
+            admin
         );
 
         // deploy the plugin
@@ -60,14 +55,14 @@ contract AdminTransferSetup is PluginSetup {
             memory permissions = new PermissionLib.MultiTargetPermission[](2);
 
         // Set plugin permissions to be granted.
-        // Grant the list of prmissions of the plugin to the DAO.
+        // Grant the list of permissions of the plugin to the DAO.
         permissions[0] = PermissionLib.MultiTargetPermission(
             PermissionLib.Operation.Grant,
             plugin,
             _dao,
             NO_ORACLE,
             // AdminTransferPlugin.CONFIGURE_PERMISSION_ID()
-            keccak256("ADMIN_TRANSFER_CONFIGURATION_PERMISSION")
+            keccak256("DEMO_PERMISSION")
         );
 
         // Grant `EXECUTE_PERMISSION` of the DAO to the plugin.
@@ -103,7 +98,7 @@ contract AdminTransferSetup is PluginSetup {
             _payload.plugin,
             _dao,
             NO_ORACLE,
-            keccak256("ADMIN_TRANSFER_CONFIGURATION_PERMISSION")
+            keccak256("DEMO_PERMISSION")
         );
 
         // Revoke `EXECUTE_PERMISSION` of the DAO to the plugin.
