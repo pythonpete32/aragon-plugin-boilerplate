@@ -5,9 +5,9 @@ pragma solidity 0.8.17;
 import {IDAO} from "aragon-plugin-base/contracts/lib/interfaces/IDAO.sol";
 import {PluginUUPSUpgradeable} from "aragon-plugin-base/contracts/lib/plugin/PluginUUPSUpgradeable.sol";
 
-/// @title TemplatePlugin
+/// @title SimplePlugin
 /// @notice Enables Admins to transfer ETH from the DAO to a recipient without a vote.
-contract TemplatePlugin is PluginUUPSUpgradeable {
+contract SimplePlugin is PluginUUPSUpgradeable {
 
     bytes32 public constant DEMO_PERMISSION_ID = keccak256("DEMO_PERMISSION");
     uint256 public nonce;

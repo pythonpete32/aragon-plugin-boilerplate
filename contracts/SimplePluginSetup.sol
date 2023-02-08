@@ -13,11 +13,11 @@ import {DAO} from "aragon-plugin-base/contracts/lib/dao-authorizable/DAO.sol";
 import {PermissionLib} from "aragon-plugin-base/contracts/lib/permission/PermissionLib.sol";
 import {PluginSetup, IPluginSetup} from "aragon-plugin-base/contracts/lib/plugin/PluginSetup.sol";
 
-import {TemplatePlugin} from "./TemplatePlugin.sol";
+import {SimplePlugin} from "./SimplePlugin.sol";
 
-/// @title LensVotingSetup
-/// @notice The setup contract of the `LensVoting` plugin.
-contract TemplatePluginSetup is PluginSetup {
+/// @title SimplePluginSetup
+/// @notice The setup contract of the `SimplePlugin` plugin.
+contract SimplePluginSetup is PluginSetup {
     using Address for address;
     using Clones for address;
     using ERC165Checker for address;
@@ -29,7 +29,7 @@ contract TemplatePluginSetup is PluginSetup {
 
     /// @notice The contract constructor, that deployes the bases.
     constructor() {
-        adminTransferBase = address(new TemplatePlugin());
+        adminTransferBase = address(new SimplePlugin());
     }
 
     /// @inheritdoc IPluginSetup
@@ -37,10 +37,10 @@ contract TemplatePluginSetup is PluginSetup {
         address _dao,
         bytes memory _data
     ) external returns (address plugin, PreparedDependency memory preparedDependency) {
-        // 1. Decode `_data` to extract the params needed for deploying and initializing `AdminTransfer` plugin,
+        // Decode `_data` to extract the params needed for deploying and initializing `AdminTransfer` plugin,
         address admin = abi.decode(_data, (address));
 
-        // 3. encode the initialization data for the plugin
+        // encode the initialization data for the plugin
         bytes memory initData = abi.encodeWithSelector(
             bytes4(keccak256("initialize(address,address)")),
             _dao,
