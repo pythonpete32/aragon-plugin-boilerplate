@@ -49,6 +49,18 @@ contract TokenSalePlugin is PluginUUPSUpgradeable {
         isFinalised = false;
     }
 
+    // ------------------------------------------------------------------------------ //
+    //                               FUNCTIONS                                        //
+    // ------------------------------------------------------------------------------ //
+
+    function contribute(uint256 amount) external {}
+
+    function pause() external auth(PAUSE_PERMISSION_ID) {}
+
+    function finalise() external auth(FINALISE_PERMISSION_ID) {}
+
+    function _transferTokens(address recipient, uint256 amount) internal {}
+
     // 05 - This empty reserved space is put in place to allow future versions to add new variables without shifting down storage in the inheritance chain (see [OpenZepplins guide about storage gaps](https://docs.openzeppelin.com/contracts/4.x/upgradeable#storage_gaps)).
     uint256[48] private __gap;
 }
